@@ -1,0 +1,14 @@
+{
+  "name": "OwRo-Bot",
+  "version": "0.0.1",
+  "description": "A Discord bot for Overwatch Romania",
+  "author": "FallenAngel",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "request": "^2.81.0"
+  }
+}
