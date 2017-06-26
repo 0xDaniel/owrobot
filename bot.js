@@ -17,6 +17,10 @@ bot.on('message', message => {
     message.reply('pong');
   }
 
+    if (message.content === '#pray4Andrei') {
+    message.reply('https://i.imgur.com/ENYmCb8.png');
+  }
+
   if (message.content.startsWith('ow!rank')) {
     if (message.content.indexOf('#') > -1) {
       OverwatchAPI(message.content, (err, data) => {
