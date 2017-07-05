@@ -10,6 +10,15 @@ bot.on('ready', () => {
   console.log('Cheers Love, The Cavalry`s Here');
 });
 
+
+bot.on('guildMemberRemove', member => {
+    member.guild.defaultChannel.sendMessage(`F`);
+});
+bot.on('guildMemberAdd', member => {
+    member.guild.defaultChannel.sendMessage(`Bine ai venit **${member.user.username}** pe **Overwatch Romania**.`);
+});
+
+
 bot.on('message', message => {
   if (message.author.bot) return;
 
