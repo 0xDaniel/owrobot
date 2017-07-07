@@ -37,7 +37,7 @@ bot.on('message', message => {
           message.channel.send({
             embed: {
               color: 15158332,
-              description: "Am intampinat o eroare :((Battle tag inexistent verifica daca nu cumva ai uitat majusculele)",
+              description: "Am intampinat o eroare :( (Battle tag inexistent verifica daca nu cumva ai uitat majusculele)",
             }
           });
           return console.error(err + ': ' + data);
@@ -64,9 +64,16 @@ bot.on('message', message => {
         } else if (rankint < 4000) {
           st += "Master";
           let myRole = message.guild.roles.find("name", "Master");
-        } else {
+        } else if(rankint <5000) {
           st += "Grandmaster";
           let myRole = message.guild.roles.find("name", "Grandmaster");
+        } else {
+           message.channel.send({
+            embed: {
+              color: 15158332,
+              description: "Am intampinat o eroare :( (Nu ai rank. Asta inseamna ca nu ai facut meciurile de plasament...cel mai probabil)",
+            }
+          });
         }
         let user = message.member;
         let gradrole = message.guild.roles.find(r => r.name === st);
