@@ -83,7 +83,7 @@ bot.on('message', message => {
     let user = message.member;
     let s = message.guild.roles.find(r => r.name === "Support");
     let d = message.guild.roles.find(r => r.name === "DPS");
-    let t = message.guild.roles.find(r => r.name === "DPS");
+    let t = message.guild.roles.find(r => r.name === "Tank");
     let f = message.guild.roles.find(r => r.name === "Flex");
     let s1 = message.guild.member(user).roles.has(s.id);
     let d1 = message.guild.member(user).roles.has(d.id);
