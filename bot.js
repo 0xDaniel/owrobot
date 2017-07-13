@@ -12,22 +12,133 @@ bot.on('ready', () => {
 
 
 bot.on('guildMemberRemove', member => {
-    member.guild.defaultChannel.sendMessage(`F`);
+  member.guild.defaultChannel.sendMessage(`Ⅎ`);
 });
 bot.on('guildMemberAdd', member => {
-    member.guild.defaultChannel.sendMessage(`Bine ai venit **${member.user.username}** pe **Overwatch Romania**.`);
+  member.guild.defaultChannel.sendMessage(`Bine ai venit **${member.user.username}** pe **Overwatch Romania**.`);
 });
 
+let responseObject = {
+  "#pray4Andrei": "https://i.imgur.com/ENYmCb8.png",
+  "wat": "Say what?",
+  "ping": "pong"
+};
 
 bot.on('message', message => {
   if (message.author.bot) return;
 
-  if (message.content === 'ping') {
-    message.reply('pong');
+
+  if (responseObject[message.content]) {
+    message.channel.send(responseObject[message.content]);
   }
 
-    if (message.content === '#pray4Andrei') {
-    message.reply('https://i.imgur.com/ENYmCb8.png');
+  if (message.content.startsWith('!nsfw')) {
+    let user = message.member;
+    let n = message.guild.roles.find(r => r.name === "18+ nsfw");
+    let n1 = message.guild.member(user).roles.has(n.id);
+    if (n1) {
+      message.channel.send({
+        embed: {
+          color: 15158332,
+          description: "Deja esti in haita noastra.",
+        }
+      });
+    } else {
+      message.guild.member(user).addRole(n.id);
+      message.channel.send({
+        embed: {
+          color: 3066993,
+          description: "Welcome to the dark side.",
+        }
+      });
+    }
+  }
+
+
+  if (message.content.startsWith('!delnsfw')) {
+    let user = message.member;
+    let n = message.guild.roles.find(r => r.name === "18+ nsfw");
+    let n1 = message.guild.member(user).roles.has(n.id);
+    if (n1) {
+      message.guild.member(user).removeRole(n.id);
+      message.channel.send({
+        embed: {
+          color: 3066993,
+          description: "bye bye...",
+        }
+      });
+    } else {
+      message.channel.send({
+        embed: {
+          color: 15158332,
+          description: "Cum sa te scot daca nici macar nu erai in haita.",
+        }
+      });
+    }
+  }
+
+  if (message.content.startsWith('ow!gr')) {
+    const args = message.content.split(/\s+/g).slice(1);
+    let gr = args[0];
+    let user = message.member;
+    let s = message.guild.roles.find(r => r.name === "Support");
+    let d = message.guild.roles.find(r => r.name === "DPS");
+    let t = message.guild.roles.find(r => r.name === "DPS");
+    let f = message.guild.roles.find(r => r.name === "Flex");
+    let s1 = message.guild.member(user).roles.has(s.id);
+    let d1 = message.guild.member(user).roles.has(d.id);
+    let t1 = message.guild.member(user).roles.has(t.id);
+    let f1 = message.guild.member(user).roles.has(f.id);
+    if (s1) {
+      message.guild.member(user).removeRole(s.id);
+    } else if (d1) {
+      message.guild.member(user).removeRole(d.id);
+    } else if (t1) {
+      message.guild.member(user).removeRole(t.id);
+    } else if (f1) {
+      message.guild.member(user).removeRole(f.id);
+    }
+
+    if (gr == "Support" || gr == "support") {
+      message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "Support").id);
+      message.channel.send({
+        embed: {
+          color: 3066993,
+          description: "Rolul de **support** a fost adaugat.",
+        }
+      });
+    } else if (gr == "Dps" || gr == "dps") {
+      message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "DPS").id);
+      message.channel.send({
+        embed: {
+          color: 3066993,
+          description: "Rolul de **DPS** a fost adaugat.",
+        }
+      });
+    } else if (gr == "Tank" || gr == "tank") {
+      message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "Tank").id);
+      message.channel.send({
+        embed: {
+          color: 3066993,
+          description: "Rolul de **tank** a fost adaugat.",
+        }
+      });
+    } else if (gr == "Flex" || gr == "flex") {
+      message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "Flex").id);
+      message.channel.send({
+        embed: {
+          color: 3066993,
+          description: "Rolul de **Flex** a fost adaugat.",
+        }
+      });
+    } else {
+      message.channel.send({
+        embed: {
+          color: 15158332,
+          description: "Trebuie sa alegi unul dintre rolurile de DPS, TANK, SUPPORT, FLEX",
+        }
+      });
+    }
   }
 
   if (message.content.startsWith('ow!rank')) {
@@ -64,11 +175,11 @@ bot.on('message', message => {
         } else if (rankint < 4000) {
           st += "Master";
           let myRole = message.guild.roles.find("name", "Master");
-        } else if(rankint <5000) {
+        } else if (rankint < 5000) {
           st += "Grandmaster";
           let myRole = message.guild.roles.find("name", "Grandmaster");
         } else {
-           message.channel.send({
+          message.channel.send({
             embed: {
               color: 15158332,
               description: "Am intampinat o eroare :( (Nu ai rank. Asta inseamna ca nu ai facut meciurile de plasament...cel mai probabil)",
@@ -117,12 +228,12 @@ bot.on('message', message => {
             message.guild.member(user).removeRole(gm.id);
           }
           message.channel.send({
-              embed: {
-                color: 3066993,
-                description: "Rolul de " + st + " a fost adaugat.Si sr-ul tau curent este " + data + ".",
-              }
-            });
-            message.guild.member(user).addRole(gradrole.id);
+            embed: {
+              color: 3066993,
+              description: "Rolul de " + st + " a fost adaugat.Si sr-ul tau curent este " + data + ".",
+            }
+          });
+          message.guild.member(user).addRole(gradrole.id);
         }
 
       });
@@ -131,9 +242,7 @@ bot.on('message', message => {
     }
   }
 });
-
 bot.login(process.env.BOT_TOKEN);
-
 let showHelp = (message) => {
   const helpText = '\n Verifica daca ti-ai scris battle tag-ul corect si daca ai majuscule folosestele. \n Daca esti in alta regiune sau pe alta platforma adauga dupa battle tag  \n\n  p=[platform] \n Options: pc, xbl, psn \n\n Region: r=[region] \n Options: us, eu, kr, cn, global \n\n Toata chestia ar trebuii sa arate: ow!rank FallenAngel#2765 p=pc r=us';
   message.reply(helpText);
