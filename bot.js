@@ -79,7 +79,7 @@ bot.on('message', message => {
 
   if (message.content.startsWith('ow!gr')) {
     const args = message.content.split(/\s+/g).slice(1);
-    let gr = args[0].toUpperCase();
+    let gr = args[0].toLowerCase();
     let user = message.member;
     let s = message.guild.roles.find(r => r.name === "Support");
     let d = message.guild.roles.find(r => r.name === "DPS");
@@ -99,7 +99,7 @@ bot.on('message', message => {
       message.guild.member(user).removeRole(f.id);
     }
 
-    if (gr == "SUPPORT") {
+    if (gr == "support") {
       message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "Support").id);
       message.channel.send({
         embed: {
@@ -107,7 +107,7 @@ bot.on('message', message => {
           description: "Rolul de **support** a fost adaugat.",
         }
       });
-    } else if (gr == "DPS") {
+    } else if (gr == "dps") {
       message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "DPS").id);
       message.channel.send({
         embed: {
@@ -115,7 +115,7 @@ bot.on('message', message => {
           description: "Rolul de **DPS** a fost adaugat.",
         }
       });
-    } else if (gr == "TANK") {
+    } else if (gr == "tank") {
       message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "Tank").id);
       message.channel.send({
         embed: {
@@ -123,7 +123,7 @@ bot.on('message', message => {
           description: "Rolul de **tank** a fost adaugat.",
         }
       });
-    } else if (gr == "FLEX") {
+    } else if (gr == "flex") {
       message.guild.member(user).addRole(message.guild.roles.find(r => r.name === "Flex").id);
       message.channel.send({
         embed: {
