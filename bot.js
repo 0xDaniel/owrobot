@@ -146,7 +146,7 @@ bot.on('message', message => {
     }
   }
 
-  if (message.content.startsWith('ow!ra') && message.guild.id==306696239381086211) {
+  if (message.content.startsWith('ow!rank') && message.guild.id==306696239381086211) {
     //if (message.content.indexOf('#') > -1) {
     OverwatchAPI(message.content, (err, data) => {
       if (err) {
