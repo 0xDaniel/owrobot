@@ -15,7 +15,7 @@ bot.on('guildMemberRemove', member => {
   member.guild.defaultChannel.sendMessage(`Ⅎ`);
 });
 bot.on('guildMemberAdd', member => {
-  member.guild.defaultChannel.sendMessage(`Bine ai venit **${member.user.username}** pe **Overwatch Romania**.`);
+  member.guild.defaultChannel.sendMessage(`Bine ai venit **${member.user.username}** pe **${member.guild.name}**.`);
 });
 
 let responseObject = {
@@ -28,11 +28,16 @@ bot.on('message', message => {
   if (message.author.bot) return;
 
 
-  if (responseObject[message.content]) {
+  if (responseObject[message.content] && message.guild.id==306696239381086211) {
     message.channel.send(responseObject[message.content]);
   }
 
-  if (message.content.startsWith('!nsfw')) {
+  if (message.content.startsWith('ow!help') && message.guild.id==306696239381086211) {
+    showHelp(message);
+  }
+
+
+  if (message.content.startsWith('!nsfw') && message.guild.id==306696239381086211) {
     let user = message.member;
     let n = message.guild.roles.find(r => r.name === "18+ nsfw");
     let n1 = message.guild.member(user).roles.has(n.id);
@@ -55,7 +60,7 @@ bot.on('message', message => {
   }
 
 
-  if (message.content.startsWith('!delnsfw')) {
+  if (message.content.startsWith('!delnsfw') && message.guild.id==306696239381086211) {
     let user = message.member;
     let n = message.guild.roles.find(r => r.name === "18+ nsfw");
     let n1 = message.guild.member(user).roles.has(n.id);
@@ -77,7 +82,7 @@ bot.on('message', message => {
     }
   }
 
-  if (message.content.startsWith('ow!gr')) {
+  if (message.content.startsWith('ow!gr') && message.guild.id==306696239381086211) {
     const args = message.content.split(/\s+/g).slice(1);
     let gr = args[0].toLowerCase();
     let user = message.member;
@@ -141,69 +146,72 @@ bot.on('message', message => {
     }
   }
 
-  if (message.content.startsWith('ow!rank')) {
-    if (message.content.indexOf('#') > -1) {
-      OverwatchAPI(message.content, (err, data) => {
-        if (err) {
-          message.channel.send({
-            embed: {
-              color: 15158332,
-              description: "Am intampinat o eroare :( (Battle tag inexistent verifica daca nu cumva ai uitat majusculele)",
-            }
-          });
-          return console.error(err + ': ' + data);
-        }
+  if (message.content.startsWith('ow!ra') && message.guild.id==306696239381086211) {
+    //if (message.content.indexOf('#') > -1) {
+    OverwatchAPI(message.content, (err, data) => {
+      if (err) {
+        message.channel.send({
+          embed: {
+            color: 15158332,
+            description: "Am intampinat o eroare :( (Battle tag inexistent verifica daca nu cumva ai uitat majusculele)",
+          }
+        });
+        return console.error(err + ': ' + data);
+      }
+      var rankint = parseInt(data);
+      let myRole = "";
+      var st = "";
+      if (rankint < 1500) {
+        st += "Bronze";
+        let myRole = message.guild.roles.find("name", "Bronze");
+      } else if (rankint < 2000) {
+        st += "Silver";
+        let myRole = message.guild.roles.find("name", "Silver");
+      } else if (rankint < 2500) {
+        st += "Gold";
+        let myRole = message.guild.roles.find("name", "Gold");
+      } else if (rankint < 3000) {
+        st += "Platinum";
+        let myRole = message.guild.roles.find("name", "Platinum");
+      } else if (rankint < 3500) {
+        st += "Diamond";
+        let myRole = message.guild.roles.find("name", "Diamond");
+      } else if (rankint < 4000) {
+        st += "Master";
+        let myRole = message.guild.roles.find("name", "Master");
+      } else if (rankint < 5000) {
+        st += "Grandmaster";
+        let myRole = message.guild.roles.find("name", "Grandmaster");
+      } else {
+        message.channel.send({
+          embed: {
+            color: 15158332,
+            description: "Am intampinat o eroare :( (Nu ai rank. Asta inseamna ca nu ai facut meciurile de plasament...cel mai probabil)",
+          }
+        });
+      }
 
-        var rankint = parseInt(data);
-        let myRole = "";
-        var st = "";
-        if (rankint < 1500) {
-          st += "Bronze";
-          let myRole = message.guild.roles.find("name", "Bronze");
-        } else if (rankint < 2000) {
-          st += "Silver";
-          let myRole = message.guild.roles.find("name", "Silver");
-        } else if (rankint < 2500) {
-          st += "Gold";
-          let myRole = message.guild.roles.find("name", "Gold");
-        } else if (rankint < 3000) {
-          st += "Platinum";
-          let myRole = message.guild.roles.find("name", "Platinum");
-        } else if (rankint < 3500) {
-          st += "Diamond";
-          let myRole = message.guild.roles.find("name", "Diamond");
-        } else if (rankint < 4000) {
-          st += "Master";
-          let myRole = message.guild.roles.find("name", "Master");
-        } else if (rankint < 5000) {
-          st += "Grandmaster";
-          let myRole = message.guild.roles.find("name", "Grandmaster");
-        } else {
-          message.channel.send({
-            embed: {
-              color: 15158332,
-              description: "Am intampinat o eroare :( (Nu ai rank. Asta inseamna ca nu ai facut meciurile de plasament...cel mai probabil)",
-            }
-          });
-        }
-        let user = message.member;
-        let gradrole = message.guild.roles.find(r => r.name === st);
+      let user = message.member;
+      let gradrole = message.guild.roles.find(r => r.name === st);
 
-        let b = message.guild.roles.find(r => r.name === "Bronze");
-        let s = message.guild.roles.find(r => r.name === "Silver");
-        let g = message.guild.roles.find(r => r.name === "Gold");
-        let p = message.guild.roles.find(r => r.name === "Platinum");
-        let d = message.guild.roles.find(r => r.name === "Diamond");
-        let m = message.guild.roles.find(r => r.name === "Master");
-        let gm = message.guild.roles.find(r => r.name === "Grandmaster");
-        let b1 = message.guild.member(user).roles.has(b.id);
-        let s1 = message.guild.member(user).roles.has(s.id);
-        let g1 = message.guild.member(user).roles.has(g.id);
-        let p1 = message.guild.member(user).roles.has(p.id);
-        let d1 = message.guild.member(user).roles.has(d.id);
-        let m1 = message.guild.member(user).roles.has(m.id);
-        let gm1 = message.guild.member(user).roles.has(gm.id);
-
+      let b = message.guild.roles.find(r => r.name === "Bronze");
+      let s = message.guild.roles.find(r => r.name === "Silver");
+      let g = message.guild.roles.find(r => r.name === "Gold");
+      let p = message.guild.roles.find(r => r.name === "Platinum");
+      let d = message.guild.roles.find(r => r.name === "Diamond");
+      let m = message.guild.roles.find(r => r.name === "Master");
+      let gm = message.guild.roles.find(r => r.name === "Grandmaster");
+      let b1 = message.guild.member(user).roles.has(b.id);
+      let s1 = message.guild.member(user).roles.has(s.id);
+      let g1 = message.guild.member(user).roles.has(g.id);
+      let p1 = message.guild.member(user).roles.has(p.id);
+      let d1 = message.guild.member(user).roles.has(d.id);
+      let m1 = message.guild.member(user).roles.has(m.id);
+      let gm1 = message.guild.member(user).roles.has(gm.id);
+      if(gradrole==null)
+      {
+      
+      }else{
         if (message.guild.member(user).roles.has(gradrole.id)) {
           message.channel.send({
             embed: {
@@ -235,15 +243,54 @@ bot.on('message', message => {
           });
           message.guild.member(user).addRole(gradrole.id);
         }
-
-      });
-    } else {
-      showHelp(message);
-    }
+  
+      }
+      
+    });
+    //}
+    //else {
+    //   showHelp(message);
+    // }
   }
 });
+
+
+
 bot.login(process.env.BOT_TOKEN);
+
+
 let showHelp = (message) => {
-  const helpText = '\n Verifica daca ti-ai scris battle tag-ul corect si daca ai majuscule folosestele. \n Daca esti in alta regiune sau pe alta platforma adauga dupa battle tag  \n\n  p=[platform] \n Options: pc, xbl, psn \n\n Region: r=[region] \n Options: us, eu, kr, cn, global \n\n Toata chestia ar trebuii sa arate: ow!rank FallenAngel#2765 p=pc r=us';
-  message.reply(helpText);
+  message.channel.send({
+    "embed": {
+      "title": "How to use",
+      "description": " ```\now!rank Battletag#1234```",
+      "color": 14116798,
+      "footer": {
+        "text": "Overwatch Romania"
+      },
+      "fields": [{
+          "name": "Verifica daca ti-ai scris battletag-ul corect si daca ai majuscule folosestele",
+          "value": "De asemenea sa ai meciurile de plasament facute"
+        },
+        {
+          "name": "Console players",
+          "value": "Cei care folosesc xbox/psn trebuie sa puna doar battletag fara #1234 si urmat de p=xbl/psn "
+        },
+        {
+          "name": "Misc",
+          "value": "Exemplu pentru a seta alta regiune ow!rank FallenAngel#2765 p=pc r=us"
+        },
+        {
+          "name": "Region",
+          "value": "Options: us, eu, kr, cn, global",
+          "inline": true
+        },
+        {
+          "name": "Platform",
+          "value": "Options: pc, xbl, psn ",
+          "inline": true
+        }
+      ]
+    }
+  });;
 };
